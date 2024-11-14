@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Http\JsonResponse;
 
 class FrontendController extends Controller
 {
@@ -12,7 +14,7 @@ class FrontendController extends Controller
      */
     public function index(): View
     {
-        return view('frontend.index');
+        return view('frontend.index')->with('title', 'Главная страница');
     }
 
     /**
@@ -20,12 +22,22 @@ class FrontendController extends Controller
      */
     public function contact(): View
     {
-        return view('frontend.contact');
+        return view('frontend.contact')->with('title', 'Контакты');
     }
 
-    public function changeTheme(Request $request)
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function changeTheme(Request $request): JsonResponse
     {
+        if ($request->input('template')) {
+            Cookie::queue(
+                Cookie::forever('template', $request->input('template')));
+        }
 
+        return response()->json([
+            'result' => true
+        ]);
     }
-
 }
