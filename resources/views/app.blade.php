@@ -18,12 +18,16 @@
 
     <!-- Custom styles for this template -->
 
-    {!! Html::style('/assets/cover.css') !!}
+    @if (Cookie::get('template') == 'cuba')
+        {!! Html::style('/assets/cuba.css') !!}
+    @else
+        {!! Html::style('/assets/class.css') !!}
+    @endif
 
     @yield('css')
 
 </head>
-<body class="d-flex h-100 text-center text-bg-dark">
+<body class="d-flex h-100 text-center">
 
 <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
     <header class="mb-auto">
@@ -45,8 +49,6 @@
             </div>
         </div>
     </header>
-
-
 
     <main class="px-3">
         @yield('content')
@@ -81,7 +83,7 @@
 
             request.done(function (data) {
                 if (data.result != null && data.result === true) {
-                  //  location.reload();
+                    location.reload();
                 }
             });
         });
